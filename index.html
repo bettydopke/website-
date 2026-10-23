@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Betty Dopke – Portfolio</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-13 -13 26 26'%3E%3Cpath fill='%234a2c1d' d='M0,-12.6 C0.9,-4.6 4.6,-0.9 12.6,0 C4.6,0.9 0.9,4.6 0,12.6 C-0.9,4.6 -4.6,0.9 -12.6,0 C-4.6,-0.9 -0.9,-4.6 0,-12.6Z'/%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,6 +42,8 @@
       scroll-behavior: smooth;
       scroll-padding-top: 110px;
       background: #fff;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
 
     body {
@@ -53,6 +57,17 @@
     a {
       color: inherit;
       text-decoration: none;
+    }
+
+    a,
+    button {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    .arr {
+      font-family: var(--sans);
+      font-variant-emoji: text;
     }
 
     button {
@@ -111,8 +126,8 @@
 
     .cursor span {
       display: block;
-      width: 22px;
-      height: 22px;
+      width: 18px;
+      height: 18px;
       color: var(--brown);
       transform: translate(-50%, -50%);
       transition: transform 0.3s var(--ease), opacity 0.2s ease;
@@ -181,7 +196,7 @@
     }
 
     .nav-links a.is-active {
-      color: var(--navy);
+      color: var(--brown);
     }
 
 
@@ -265,11 +280,11 @@
     }
 
     .hero-contact a {
-      transition: color 0.2s ease;
+      transition: opacity 0.2s ease;
     }
 
     .hero-contact a:hover {
-      color: var(--blue);
+      opacity: 0.45;
     }
 
 
@@ -514,28 +529,24 @@
       position: absolute;
       top: 50%;
       z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      border: 1px solid #d6d6d6;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.85);
-      font-size: var(--small);
+      width: 34px;
+      height: 34px;
+      border: 0;
+      background: none;
+      font-size: 15px;
       line-height: 1;
-      opacity: 0;
-      pointer-events: none;
+      opacity: 0.4;
       transform: translateY(-50%);
-      transition: opacity 0.2s ease;
+      transition: opacity 0.2s ease, transform 0.3s var(--ease);
     }
 
-    .scroll-arrow.left { left: 10px; }
-    .scroll-arrow.right { right: 10px; }
+    .scroll-arrow.left { left: calc(var(--pad) * -0.6); }
+    .scroll-arrow.right { right: calc(var(--pad) * -0.6); }
 
-    .scroll-arrow.visible {
-      opacity: 1;
-      pointer-events: auto;
+    @media (hover: hover) {
+      .scroll-arrow:hover { opacity: 1; }
+      .scroll-arrow.left:hover { transform: translate(-3px, -50%); }
+      .scroll-arrow.right:hover { transform: translate(3px, -50%); }
     }
 
     footer {
@@ -1263,8 +1274,9 @@
       }
 
       #top {
-        min-height: 88svh;
-        padding: var(--page-top) 20px 10px;
+        min-height: 100vh;
+        min-height: 100svh;
+        padding: var(--page-top) 20px 28px;
       }
 
       .hello {
@@ -1333,8 +1345,13 @@
       .project:nth-child(3) { width: 58vw; height: 77vw; margin-top: 10px; }
 
       .scroll-arrow {
-        display: none;
+        top: calc(50% - 30px);
+        width: 36px;
+        height: 36px;
       }
+
+      .scroll-arrow.left { left: 4px; }
+      .scroll-arrow.right { right: 4px; }
 
       footer {
         padding: 25px 20px 30px;
@@ -1388,6 +1405,54 @@
       }
     }
 
+    @media (max-width: 760px) {
+      .site-nav,
+      body.nav-sky .site-nav {
+        background: var(--sky);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+
+      body:not(.nav-sky) .site-nav {
+        background: #fff;
+      }
+
+      .page {
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
+    @media (hover: none) {
+      .slider-btn:hover {
+        opacity: 0.4;
+      }
+
+      .lightbox button:hover {
+        opacity: 0.45;
+      }
+
+      .nav-links a:hover,
+      footer a:hover,
+      .contact-mail:hover,
+      .contact-linkedin:hover,
+      .pager a:hover {
+        opacity: 1;
+      }
+
+      .pager .prev:hover,
+      .pager .next:hover {
+        transform: none;
+      }
+
+      .hero-contact a:hover {
+        opacity: 1;
+      }
+
+      .page-back:hover {
+        color: var(--grey);
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       html {
         scroll-behavior: auto;
@@ -1407,15 +1472,7 @@
 
   <div class="cursor is-hidden" id="cursor" aria-hidden="true">
     <span>
-      <svg viewBox="-13 -13 26 26">
-        <g fill="currentColor">
-          <path d="M0,-1.4 C-3.8,-4 -4.6,-10 -0.6,-12 C3.4,-10.6 4.2,-4.6 0,-1.4Z" transform="rotate(-8) scale(0.9 0.88)"/>
-          <path d="M0,-1.4 C-3.8,-4 -4.6,-10 -0.6,-12 C3.4,-10.6 4.2,-4.6 0,-1.4Z" transform="rotate(62) scale(0.82 0.86)"/>
-          <path d="M0,-1.4 C-3.8,-4 -4.6,-10 -0.6,-12 C3.4,-10.6 4.2,-4.6 0,-1.4Z" transform="rotate(138) scale(0.86 0.82)"/>
-          <path d="M0,-1.4 C-3.8,-4 -4.6,-10 -0.6,-12 C3.4,-10.6 4.2,-4.6 0,-1.4Z" transform="rotate(203) scale(0.7 0.73)"/>
-          <path d="M0,-1.4 C-3.8,-4 -4.6,-10 -0.6,-12 C3.4,-10.6 4.2,-4.6 0,-1.4Z" transform="rotate(276) scale(0.93 0.88)"/>
-        </g>
-      </svg>
+      <svg viewBox="-13 -13 26 26"><path fill="currentColor" d="M0,-12.6 C0.9,-4.6 4.6,-0.9 12.6,0 C4.6,0.9 0.9,4.6 0,12.6 C-0.9,4.6 -4.6,0.9 -12.6,0 C-4.6,-0.9 -0.9,-4.6 0,-12.6Z"/></svg>
     </span>
   </div>
 
@@ -1438,10 +1495,6 @@
       <div>
         <dt>Mail</dt>
         <dd><a href="mailto:betty.dopke@gmail.com">betty.dopke@gmail.com</a></dd>
-      </div>
-      <div>
-        <dt>Telefon</dt>
-        <dd><a href="tel:+491623192099">+49 1623192099</a></dd>
       </div>
       <div>
         <dt>LinkedIn</dt>
@@ -1569,7 +1622,7 @@
 
   <footer>
     <a href="#contact">let's talk →</a>
-    <a href="https://www.linkedin.com/in/betty-dopke-014967257/" target="_blank" rel="noopener">LinkedIn ↗</a>
+    <a href="https://www.linkedin.com/in/betty-dopke-014967257/" target="_blank" rel="noopener">LinkedIn <span class="arr">↗&#xFE0E;</span></a>
   </footer>
 
   <div class="page" id="workPage" aria-hidden="true">
@@ -1622,12 +1675,11 @@
     <div class="page-inner">
       <div class="contact-head">
         <h2 class="big-title">let's<br>talk.</h2>
-        <a class="contact-linkedin" href="https://www.linkedin.com/in/betty-dopke-014967257/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="contact-linkedin" href="https://www.linkedin.com/in/betty-dopke-014967257/" target="_blank" rel="noopener">LinkedIn <span class="arr">↗&#xFE0E;</span></a>
       </div>
 
       <div class="contact-links">
         <a class="contact-mail" href="mailto:betty.dopke@gmail.com">betty.dopke@gmail.com</a>
-        <a class="contact-mail" href="tel:+491623192099">+49 1623192099</a>
       </div>
     </div>
   </div>
@@ -2280,31 +2332,30 @@
     viewport.addEventListener("dragstart", (event) => event.preventDefault());
     viewport.addEventListener("touchstart", stopGlide, { passive: true });
 
-    let mouseX = null;
+    const cards = [...viewport.querySelectorAll(".project")];
 
-    function updateArrows() {
-      const edge = 90;
-      arrowLeft.classList.toggle("visible", mouseX !== null && mouseX <= edge && viewport.scrollLeft > 5);
-      arrowRight.classList.toggle("visible", mouseX !== null && mouseX >= workArea.clientWidth - edge && viewport.scrollLeft < maxScroll() - 5);
+    function cardTarget(card) {
+      const centre = card.offsetLeft + card.offsetWidth / 2 - viewport.clientWidth / 2;
+      return Math.min(Math.max(centre, 0), maxScroll());
     }
 
-    workArea.addEventListener("mousemove", (event) => {
-      mouseX = event.clientX - workArea.getBoundingClientRect().left;
-      updateArrows();
-    });
-
-    workArea.addEventListener("mouseleave", () => {
-      mouseX = null;
-      updateArrows();
-    });
+    function stepCards(dir) {
+      stopGlide();
+      const x = viewport.scrollLeft;
+      const targets = cards.map(cardTarget);
+      let left = dir > 0
+        ? targets.find((t) => t > x + 4)
+        : [...targets].reverse().find((t) => t < x - 4);
+      if (left === undefined) left = dir > 0 ? 0 : maxScroll();
+      viewport.scrollTo({ left, behavior: "smooth" });
+    }
 
     viewport.addEventListener("scroll", () => {
       if (!moving && !dragging) goal = viewport.scrollLeft;
-      updateArrows();
     }, { passive: true });
 
-    arrowLeft.addEventListener("click", () => glideTo((moving ? goal : viewport.scrollLeft) - viewport.clientWidth * 0.7));
-    arrowRight.addEventListener("click", () => glideTo((moving ? goal : viewport.scrollLeft) + viewport.clientWidth * 0.7));
+    arrowLeft.addEventListener("click", () => stepCards(-1));
+    arrowRight.addEventListener("click", () => stepCards(1));
 
     route();
 
