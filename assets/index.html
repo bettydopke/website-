@@ -9,7 +9,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=Inter:ital,wght@0,300..600;1,300..700&family=Instrument+Serif&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -21,9 +21,11 @@
       --sky: #e5eaf2;
       --light: #ededed;
 
-      --mono: "DM Mono", Menlo, monospace;
-      --sans: "Inter", Helvetica, Arial, sans-serif;
-      --serif: "Instrument Serif", Georgia, serif;
+      /* eine Schriftfamilie für die ganze Seite – hier tauschen */
+      --font: "IBM Plex Sans", Helvetica, Arial, sans-serif;
+      --mono: var(--font);
+      --sans: var(--font);
+      --serif: var(--font);
 
       --pad: clamp(24px, 4vw, 70px);
       --page-top: clamp(140px, 17vh, 210px);
@@ -156,13 +158,18 @@
       left: 0;
       right: 0;
       z-index: 2500;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      padding: 24px var(--pad);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: baseline;
+      gap: 10px 24px;
+      padding: 22px var(--pad);
       background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
+      font-size: 13px;
+      line-height: 1;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
       transition: background-color 0.3s ease;
     }
 
@@ -171,32 +178,77 @@
     }
 
     .nav-name {
-      color: var(--brown);
-      font-family: var(--serif);
-      font-size: clamp(30px, 2.8vw, 46px);
-      line-height: 0.9;
-      letter-spacing: -0.02em;
+      justify-self: start;
+      white-space: nowrap;
+      transition: opacity 0.2s ease;
+    }
+
+    .nav-name b {
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.03em;
+    }
+
+    @media (max-width: 600px) {
+      .nav-name b {
+        font-size: 14px;
+      }
+    }
+
+    .nav-lang {
+      display: flex;
+      align-items: baseline;
+      gap: 3px;
       white-space: nowrap;
     }
 
+    .nav-lang button {
+      padding: 0;
+      border: 0;
+      background: none;
+      font: inherit;
+      letter-spacing: inherit;
+      color: var(--grey);
+      transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .nav-lang button.is-on {
+      color: var(--black);
+    }
+
     .nav-links {
+      justify-self: end;
       display: flex;
-      gap: clamp(18px, 2.5vw, 42px);
-      padding-top: 5px;
-      font-size: var(--small);
-      line-height: 1;
+      gap: clamp(18px, 2.4vw, 40px);
+      white-space: nowrap;
     }
 
     .nav-links a {
       transition: opacity 0.2s ease;
     }
 
-    .nav-links a:hover {
+    .nav-name:hover,
+    .nav-links a:hover,
+    .nav-lang button:hover {
       opacity: 0.45;
     }
 
     .nav-links a.is-active {
       color: var(--brown);
+    }
+
+    html[lang="de"] [lang="en"],
+    html[lang="en"] [lang="de"] {
+      display: none !important;
+    }
+
+    .lines > span[lang="en"] {
+      display: block;
+      max-width: 700px;
+    }
+
+    [hidden] {
+      display: none !important;
     }
 
 
@@ -336,7 +388,7 @@
 
     .about-text em {
       font-style: italic;
-      font-weight: 650;
+      font-weight: 700;
     }
 
     .cv {
@@ -410,12 +462,133 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      padding: clamp(110px, 16vh, 170px) var(--pad) 10vh;
+      padding: clamp(100px, 13vh, 140px) var(--pad) 8vh;
     }
 
     .work-area {
       position: relative;
+      margin: auto 0;
+    }
+
+    .work-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: baseline;
+      gap: 12px 30px;
+      margin-bottom: clamp(30px, 6vh, 60px);
+      font-size: 12px;
+      line-height: 1;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .work-views,
+    .work-filters {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .work-filters {
+      gap: clamp(16px, 2vw, 30px);
+    }
+
+    .work-bar button {
+      padding: 0;
+      border: 0;
+      background: none;
+      font: inherit;
+      letter-spacing: inherit;
+      text-transform: inherit;
+      color: var(--grey);
+      transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .work-bar button:hover {
+      opacity: 0.45;
+    }
+
+    .work-bar button.is-on {
+      color: var(--brown);
+    }
+
+    .project.is-out {
+      display: none;
+    }
+
+    .work-index {
+      font-size: var(--small);
+      line-height: 1.3;
+    }
+
+    .idx-head,
+    .idx-row {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1.4fr 70px;
+      gap: 20px;
+      padding: 13px 0;
+      border-bottom: 1px solid #e3e3e3;
+    }
+
+    .idx-head {
+      padding-top: 0;
+      border-color: var(--black);
+    }
+
+    .idx-head button {
+      justify-self: start;
+      padding: 0;
+      border: 0;
+      background: none;
+      font: inherit;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--grey);
+      transition: color 0.2s ease;
+    }
+
+    .idx-head button:hover,
+    .idx-head button.is-on {
+      color: var(--black);
+    }
+
+    .idx-head button {
+      white-space: nowrap;
+    }
+
+    .idx-head button.is-on::after {
+      content: " ↑";
+    }
+
+    .idx-head button.is-on.is-desc::after {
+      content: " ↓";
+    }
+
+    .idx-row {
+      transition: opacity 0.2s ease;
+    }
+
+    .idx-row:hover {
+      opacity: 0.45;
+    }
+
+    .idx-title {
+      font-weight: 700;
+    }
+
+    .idx-row > :not(.idx-title) {
+      color: var(--grey);
+    }
+
+    .idx-year {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .idx-head .idx-year {
+      justify-self: end;
     }
 
     .work-viewport {
@@ -628,9 +801,9 @@
 
     .big-title {
       font-size: clamp(56px, 8.6vw, 160px);
-      font-weight: 400;
+      font-weight: 500;
       line-height: 0.86;
-      letter-spacing: -0.075em;
+      letter-spacing: -0.06em;
     }
 
     .contact-head {
@@ -687,6 +860,20 @@
       font-weight: 400;
       line-height: 1;
       letter-spacing: -0.04em;
+    }
+
+    .detail-sub {
+      flex-basis: 100%;
+      margin-top: 8px;
+      font-size: clamp(16px, 1.4vw, 22px);
+      font-style: italic;
+      font-weight: 300;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    .detail-sub:empty {
+      display: none;
     }
 
     .detail-meta {
@@ -878,6 +1065,8 @@
 
     .fav-note span {
       font-family: var(--serif);
+      font-style: italic;
+      font-weight: 300;
       font-size: clamp(18px, 1.5vw, 24px);
       line-height: 1.15;
       letter-spacing: -0.01em;
@@ -1084,6 +1273,322 @@
     }
 
 
+    /* contact: three columns like the project pages */
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: clamp(28px, 4vw, 70px);
+      row-gap: clamp(40px, 6vh, 60px);
+      align-items: start;
+      padding-bottom: clamp(90px, 14vh, 160px);
+    }
+
+    .contact-grid > .contact-title {
+      grid-column: 1 / 3;
+      grid-row: 1;
+      margin: 0 0 0 var(--left);
+      white-space: nowrap;
+    }
+
+    .contact-info {
+      grid-column: 1;
+      grid-row: 2;
+      margin-left: var(--left) !important;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5em;
+      margin: 0;
+      font-size: clamp(14px, 1vw, 17px);
+      line-height: 1.5;
+    }
+
+    .contact-info dt,
+    .contact-info dd {
+      margin: 0;
+    }
+
+    .contact-info a {
+      border-bottom: 1px solid #a9adb5;
+      transition: opacity 0.2s ease;
+    }
+
+    .contact-info a:hover {
+      opacity: 0.45;
+    }
+
+    /* contact form */
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(40px, 6vh, 64px);
+      max-width: 900px;
+      margin: 0 0 clamp(90px, 14vh, 160px) var(--left);
+    }
+
+    .form-honey {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .field-label {
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      padding: 14px 0;
+      border: 0;
+      border-bottom: 1px solid #8a8a8a;
+      border-radius: 0;
+      background: transparent;
+      font: inherit;
+      font-size: 17px;
+      color: var(--black);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .field textarea {
+      min-height: 200px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-bottom-color: var(--black);
+    }
+
+    .form-send {
+      align-self: flex-start;
+      margin-top: 12px;
+      padding: 0 0 12px;
+      border: 0;
+      border-bottom: 2px solid var(--black);
+      background: none;
+      font: inherit;
+      font-size: clamp(24px, 2.6vw, 38px);
+      line-height: 1.1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      transition: opacity 0.2s ease;
+    }
+
+    .form-send .arr {
+      display: inline-block;
+      transition: transform 0.35s var(--ease);
+    }
+
+    @media (hover: hover) {
+      .form-send:hover .arr {
+        transform: translateX(6px);
+      }
+    }
+
+    .form-send:disabled {
+      opacity: 0.4;
+    }
+
+    .form-status {
+      min-height: 1.5em;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .form-status a {
+      border-bottom: 1px solid currentColor;
+    }
+
+    @media (max-width: 600px) {
+      .contact-form {
+        margin-left: 0;
+        gap: 36px;
+      }
+
+      .field textarea {
+        min-height: 160px;
+      }
+
+      .form-send {
+        font-size: 22px;
+      }
+    }
+
+    .contact-grid .contact-form {
+      grid-column: 3;
+      grid-row: 2;
+      gap: 30px;
+      margin: 0;
+      max-width: none;
+    }
+
+    .contact-grid .field {
+      gap: 6px;
+    }
+
+    .contact-grid .field-label {
+      font-size: 11px;
+    }
+
+    .contact-grid .field input,
+    .contact-grid .field textarea {
+      padding: 10px 0;
+      font-size: 15px;
+    }
+
+    .contact-grid .field textarea {
+      min-height: 130px;
+    }
+
+    .contact-grid .form-send {
+      margin-top: 4px;
+      padding-bottom: 8px;
+      border-bottom-width: 1.5px;
+      font-size: clamp(17px, 1.4vw, 22px);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .contact-grid .form-status {
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+        row-gap: 40px;
+      }
+
+      .contact-grid > .contact-title { grid-column: 1; grid-row: 1; }
+      .contact-info { grid-column: 1; grid-row: 2; }
+      .contact-grid .contact-form { grid-column: 1; grid-row: 3; margin-left: var(--left); }
+    }
+
+    @media (max-width: 600px) {
+      .contact-grid > .contact-title,
+      .contact-grid .contact-form { margin-left: 0; }
+      .contact-info { margin-left: 0 !important; }
+    }
+
+
+
+    /* project top: three columns */
+
+    .page-inner.detail-inner .page-back {
+      margin-left: 0;
+    }
+
+    .detail-count {
+      margin-bottom: 14px;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      color: var(--grey);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .detail-top {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: clamp(28px, 4vw, 70px);
+      row-gap: clamp(50px, 9vh, 90px);
+      margin: 0 0 clamp(70px, 11vh, 130px);
+    }
+
+    .detail-top .detail-sub,
+    .detail-top .detail-title {
+      margin: 0;
+      font-size: clamp(32px, 3.4vw, 60px);
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      text-wrap: pretty;
+    }
+
+    .detail-top .detail-title {
+      grid-column: 2;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .detail-top .detail-sub {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .detail-top .detail-intro {
+      grid-column: 2;
+      margin: 0;
+      max-width: 520px;
+      font-size: clamp(14px, 1vw, 17px);
+      line-height: 1.5;
+      letter-spacing: 0;
+    }
+
+    .detail-top .detail-facts {
+      grid-column: 3;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5em;
+      margin: 0;
+      font-size: clamp(14px, 1vw, 17px);
+      line-height: 1.5;
+    }
+
+    .detail-facts dt,
+    .detail-facts dd {
+      margin: 0;
+    }
+
+    .detail-facts dd a {
+      border-bottom: 1px solid #c9c9c9;
+      text-transform: uppercase;
+      transition: opacity 0.2s ease;
+    }
+
+    .detail-facts dd a:hover {
+      opacity: 0.45;
+    }
+
+    @media (max-width: 900px) {
+      .detail-top {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .detail-top .detail-sub { grid-column: 1 / -1; grid-row: 2; font-size: clamp(22px, 4vw, 34px); }
+      .detail-top .detail-title { grid-column: 1 / -1; grid-row: 1; }
+      .detail-top .detail-intro { grid-column: 1; }
+      .detail-top .detail-facts { grid-column: 2; }
+    }
+
+    @media (max-width: 600px) {
+      .detail-top {
+        grid-template-columns: 1fr;
+        row-gap: 28px;
+      }
+
+      .detail-top .detail-sub { grid-row: 2; margin-top: -16px; }
+      .detail-top .detail-intro,
+      .detail-top .detail-facts { grid-column: 1; }
+      .detail-top .detail-title { font-size: clamp(30px, 9vw, 40px); }
+    }
+
     /* pager */
 
     .pager {
@@ -1132,10 +1637,6 @@
     }
 
     @media (max-width: 900px) {
-      .nav-name {
-        font-size: clamp(26px, 5vw, 42px);
-      }
-
       .nav-links {
         gap: 20px;
       }
@@ -1258,19 +1759,20 @@
       }
 
       .site-nav {
-        align-items: center;
-        padding: 20px;
+        grid-template-columns: 1fr auto;
+        gap: 14px 16px;
+        padding: 18px 20px 16px;
+        font-size: 12px;
       }
 
-      .nav-name {
-        font-size: 26px;
-        letter-spacing: 0;
+      .nav-lang {
+        justify-self: end;
       }
 
       .nav-links {
-        gap: 14px;
-        padding-top: 0;
-        font-size: 12px;
+        grid-column: 1 / -1;
+        justify-self: start;
+        gap: 18px;
       }
 
       #top {
@@ -1324,7 +1826,26 @@
       }
 
       #work {
-        padding: 70px 0 80px;
+        padding: 112px 0 70px;
+      }
+
+      .work-bar {
+        margin: 0 20px 30px;
+        font-size: 11px;
+      }
+
+      .work-index {
+        margin: 0 20px;
+      }
+
+      .idx-head,
+      .idx-row {
+        grid-template-columns: 1.3fr 1fr 44px;
+        gap: 12px;
+      }
+
+      .idx-with {
+        display: none;
       }
 
       .work-viewport {
@@ -1458,6 +1979,60 @@
         scroll-behavior: auto;
       }
     }
+    /* unified type scale */
+
+    :root {
+      --body: clamp(14px, 1vw, 16px);
+      --head: clamp(26px, 2.2vw, 38px);
+    }
+
+    .about-text,
+    .cv-role,
+    .cv-flow,
+    .text,
+    .detail-top .detail-intro,
+    .detail-top .detail-facts,
+    .contact-grid .field input,
+    .contact-grid .field textarea,
+    .contact-grid .form-status {
+      font-size: var(--body);
+    }
+
+    .detail-top .detail-sub,
+    .detail-top .detail-title {
+      font-size: var(--head);
+      line-height: 1.15;
+      white-space: nowrap;
+    }
+
+    .contact-grid .form-send {
+      font-size: clamp(16px, 1.25vw, 20px);
+    }
+
+    /* contact info like the landing page */
+
+    .contact-info {
+      gap: 14px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .contact-info dt {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .contact-info a {
+      border-bottom: 0;
+    }
+
+    @media (max-width: 600px) {
+      .detail-top .detail-sub,
+      .detail-top .detail-title {
+        white-space: normal;
+      }
+    }
   </style>
 </head>
 
@@ -1477,11 +2052,16 @@
   </div>
 
   <nav class="site-nav">
-    <a href="#top" class="nav-name">Betty Dopke</a>
+    <a href="#top" class="nav-name"><b>Betty Dopke</b></a>
+    <div class="nav-lang">
+      <button type="button" data-lang="de" aria-label="Deutsch">DE</button>
+      <span>/</span>
+      <button type="button" data-lang="en" aria-label="English">EN</button>
+    </div>
     <div class="nav-links">
-      <a href="#about" data-section="about">about me</a>
-      <a href="#work" data-page="work">work</a>
-      <a href="#contact" data-page="contact">contact</a>
+      <a href="#about" data-section="about"><span lang="de">Über mich</span><span lang="en">About</span></a>
+      <a href="#work" data-page="work"><span lang="de">Arbeiten</span><span lang="en">Work</span></a>
+      <a href="#contact" data-page="contact"><span lang="de">Kontakt</span><span lang="en">Contact</span></a>
     </div>
   </nav>
 
@@ -1506,7 +2086,7 @@
   <section id="about">
     <div class="about-inner">
 
-      <h2 class="big-title about-title">about<br>me.</h2>
+      <h2 class="big-title about-title"><span lang="de">über<br>mich.</span><span lang="en">about<br>me.</span></h2>
 
       <div class="about-grid">
         <div class="about-photo">
@@ -1514,29 +2094,32 @@
         </div>
 
         <p class="about-text lines">
+          <span lang="de">
           <span class="ln">Hey, ich bin Betty (23) aus Berlin. Ich studiere Kommunikationsdesign an der HTW im 5. Semester</span>
           <span class="ln">und interessiere mich besonders für <em>Editorial Design</em>, <em>Branding</em> und <em>Typedesign</em>. Da mich</span>
           <span class="ln">visuelles Storytelling und kreative Zusammenarbeit besonders faszinieren, gehe ich Projekte</span>
           <span class="ln">sowohl mit ästhetischem Gespür als auch mit strategischem Denken an.</span>
+          </span>
+          <span lang="en">Hey, I'm Betty (23) from Berlin. I'm in my fifth semester of Communication Design at HTW Berlin and I'm especially interested in <em>editorial design</em>, <em>branding</em> and <em>type design</em>. Visual storytelling and creative collaboration fascinate me, so I approach projects with both an eye for aesthetics and strategic thinking.</span>
         </p>
       </div>
 
       <div class="cv">
 
         <div class="cv-block">
-          <div class="label mono-label">Ausbildung</div>
+          <div class="label mono-label"><span lang="de">Ausbildung</span><span lang="en">Education</span></div>
           <ul>
             <li class="cv-entry">
-              <span class="cv-date">10/2024 – jetzt</span>
+              <span class="cv-date"><span lang="de">10/2024 – jetzt</span><span lang="en">10/2024 – now</span></span>
               <span>
-                <span class="cv-role">BA Kommunikationsdesign <span class="cv-note">(voraussichtlich 03/2028)</span></span>
-                <span class="cv-where">Hochschule für Technik und Wirtschaft, Berlin</span>
+                <span class="cv-role"><span lang="de">BA Kommunikationsdesign <span class="cv-note">(voraussichtlich 03/2028)</span></span><span lang="en">BA Communication Design <span class="cv-note">(expected 03/2028)</span></span></span>
+                <span class="cv-where"><span lang="de">Hochschule für Technik und Wirtschaft, Berlin</span><span lang="en">HTW Berlin – University of Applied Sciences</span></span>
               </span>
             </li>
             <li class="cv-entry">
               <span class="cv-date">07/2021</span>
               <span>
-                <span class="cv-role">Allgemeines Abitur</span>
+                <span class="cv-role"><span lang="de">Allgemeines Abitur</span><span lang="en">Abitur (university entrance qualification)</span></span>
                 <span class="cv-where">Andreas-Gymnasium, Berlin</span>
               </span>
             </li>
@@ -1544,47 +2127,47 @@
         </div>
 
         <div class="cv-block">
-          <div class="label mono-label">Erfahrung</div>
+          <div class="label mono-label"><span lang="de">Erfahrung</span><span lang="en">Experience</span></div>
           <ul>
             <li class="cv-entry">
-              <span class="cv-date">seit 03/2025</span>
+              <span class="cv-date"><span lang="de">seit 03/2025</span><span lang="en">since 03/2025</span></span>
               <span>
-                <span class="cv-role">Werkstudentin im Corporate Design</span>
-                <span class="cv-where">Deutsches Rotes Kreuz</span>
+                <span class="cv-role"><span lang="de">Werkstudentin im Corporate Design</span><span lang="en">Working student, corporate design</span></span>
+                <span class="cv-where"><span lang="de">Deutsches Rotes Kreuz</span><span lang="en">German Red Cross</span></span>
               </span>
             </li>
             <li class="cv-entry">
               <span class="cv-date">10/2024 – 12/2024</span>
               <span>
-                <span class="cv-role">Minijob Grafikdesign</span>
+                <span class="cv-role"><span lang="de">Minijob Grafikdesign</span><span lang="en">Part-time job, graphic design</span></span>
                 <span class="cv-where">Kaluza + Schmid Studio</span>
               </span>
             </li>
             <li class="cv-entry">
               <span class="cv-date">05/2024 – 09/2024</span>
               <span>
-                <span class="cv-role">Praktikum Grafikdesign</span>
+                <span class="cv-role"><span lang="de">Praktikum Grafikdesign</span><span lang="en">Internship, graphic design</span></span>
                 <span class="cv-where">Kaluza + Schmid Studio</span>
               </span>
             </li>
             <li class="cv-entry">
               <span class="cv-date">09/2023 – 12/2023</span>
               <span>
-                <span class="cv-role">Praktikum Grafikdesign</span>
+                <span class="cv-role"><span lang="de">Praktikum Grafikdesign</span><span lang="en">Internship, graphic design</span></span>
                 <span class="cv-where">Sprachenatelier Berlin</span>
               </span>
             </li>
             <li class="cv-entry">
               <span class="cv-date">09/2022 – 11/2024</span>
               <span>
-                <span class="cv-role">Nebenjob im Service und Verkauf</span>
+                <span class="cv-role"><span lang="de">Nebenjob im Service und Verkauf</span><span lang="en">Part-time job, service and sales</span></span>
                 <span class="cv-where">Impala Coffee</span>
               </span>
             </li>
             <li class="cv-entry">
               <span class="cv-date">09/2021 – 08/2022</span>
               <span>
-                <span class="cv-role">Freiwilliges Soziales Jahr</span>
+                <span class="cv-role"><span lang="de">Freiwilliges Soziales Jahr</span><span lang="en">Voluntary social year</span></span>
                 <span class="cv-where">Kindergarten Paule am Park</span>
               </span>
             </li>
@@ -1592,27 +2175,28 @@
         </div>
 
         <div class="cv-block">
-          <div class="label mono-label">Programme</div>
+          <div class="label mono-label"><span lang="de">Programme</span><span lang="en">Software</span></div>
           <p class="cv-flow lines">
             <span class="ln">InDesign, Illustrator, Affinity, Canva, Photoshop, Lightroom,</span>
             <span class="ln">Procreate, After Effects, Figma, Miro, Touchdesigner, Glyphs,</span>
-            <span class="ln">Visual Studio Code – offen gegenüber KI</span>
+            <span class="ln">Visual Studio Code – <span lang="de">offen gegenüber KI</span><span lang="en">open to AI</span></span>
           </p>
         </div>
 
         <div class="cv-block">
           <div class="label mono-label">Skills</div>
           <p class="cv-flow lines">
-            <span class="ln">Editorial Design, Layout, Typo, Print, Branding,</span>
-            <span class="ln">Packaging, Ausstellungen, Illustration, Fotografie</span>
+            <span lang="de"><span class="ln">Editorial Design, Layout, Typo, Print, Branding,</span>
+            <span class="ln">Packaging, Ausstellungen, Illustration, Fotografie</span></span>
+            <span lang="en">Editorial design, layout, typography, print, branding, packaging, exhibitions, illustration, photography</span>
           </p>
         </div>
 
         <div class="cv-block">
-          <div class="label mono-label">Sprachen</div>
+          <div class="label mono-label"><span lang="de">Sprachen</span><span lang="en">Languages</span></div>
           <p class="cv-flow lines">
-            <span class="ln">Deutsch (Muttersprache)</span>
-            <span class="ln">Englisch (C1)</span>
+            <span class="ln"><span lang="de">Deutsch (Muttersprache)</span><span lang="en">German (native)</span></span>
+            <span class="ln"><span lang="de">Englisch (C1)</span><span lang="en">English (C1)</span></span>
           </p>
         </div>
 
@@ -1621,19 +2205,27 @@
   </section>
 
   <footer>
-    <a href="#contact">let's talk →</a>
+    <a href="#contact"><span lang="de">schreib mir →</span><span lang="en">let's talk →</span></a>
     <a href="https://www.linkedin.com/in/betty-dopke-014967257/" target="_blank" rel="noopener">LinkedIn <span class="arr">↗&#xFE0E;</span></a>
   </footer>
 
   <div class="page" id="workPage" aria-hidden="true">
     <section id="work">
+      <div class="work-bar">
+        <div class="work-filters">
+          <button type="button" data-filter="all" class="is-on"><span lang="de">Alle</span><span lang="en">All</span></button>
+          <button type="button" data-filter="editorial">Editorial</button>
+          <button type="button" data-filter="type">Typedesign</button>
+        </div>
+      </div>
+
       <div class="work-area" id="workArea">
         <button class="scroll-arrow left" id="arrowLeft" aria-label="Nach links">←</button>
 
         <div class="work-viewport" id="workViewport">
           <div class="work-track">
 
-            <article class="project" data-project="0">
+            <article class="project" data-project="0" data-cat="editorial">
               <div class="project-media">
                 <img src="assets/cw-buch-card.jpg" alt="Alles Liebe" loading="lazy" draggable="false">
               </div>
@@ -1643,7 +2235,7 @@
               </div>
             </article>
 
-            <article class="project" data-project="1">
+            <article class="project" data-project="1" data-cat="editorial">
               <div class="project-media">
                 <img src="assets/effi-cover.jpg" alt="Effi Briest" loading="lazy" draggable="false">
               </div>
@@ -1653,7 +2245,7 @@
               </div>
             </article>
 
-            <article class="project" data-project="2">
+            <article class="project" data-project="2" data-cat="type">
               <div class="project-media">
                 <img src="assets/reversa-poster.jpg" alt="Reversa Sans" loading="lazy" draggable="false">
               </div>
@@ -1672,30 +2264,61 @@
   </div>
 
   <div class="page" id="contactPage" aria-hidden="true">
-    <div class="page-inner">
-      <div class="contact-head">
-        <h2 class="big-title">let's<br>talk.</h2>
-        <a class="contact-linkedin" href="https://www.linkedin.com/in/betty-dopke-014967257/" target="_blank" rel="noopener">LinkedIn <span class="arr">↗&#xFE0E;</span></a>
-      </div>
+    <div class="page-inner contact-grid">
+      <h2 class="big-title contact-title"><span lang="de">schreib<br>mir.</span><span lang="en">let's<br>talk.</span></h2>
 
-      <div class="contact-links">
-        <a class="contact-mail" href="mailto:betty.dopke@gmail.com">betty.dopke@gmail.com</a>
-      </div>
+      <dl class="contact-info">
+        <div>
+          <dt>Mail</dt>
+          <dd><a href="mailto:betty.dopke@gmail.com">betty.dopke@gmail.com</a></dd>
+        </div>
+        <div>
+          <dt>LinkedIn</dt>
+          <dd><a href="https://www.linkedin.com/in/betty-dopke-014967257/" target="_blank" rel="noopener">betty-dopke</a></dd>
+        </div>
+      </dl>
+
+      <form class="contact-form" id="contactForm" action="https://formsubmit.co/betty.dopke@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="Neue Nachricht über dein Portfolio">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <label class="field">
+          <span class="field-label">Name</span>
+          <input type="text" name="name" required autocomplete="name">
+        </label>
+
+        <label class="field">
+          <span class="field-label"><span lang="de">E-Mail</span><span lang="en">Email</span></span>
+          <input type="email" name="email" required autocomplete="email">
+        </label>
+
+        <label class="field">
+          <span class="field-label"><span lang="de">Nachricht</span><span lang="en">Message</span></span>
+          <textarea name="message" rows="6" required></textarea>
+        </label>
+
+        <button type="submit" class="form-send"><span lang="de">Nachricht senden</span><span lang="en">Send message</span> <span class="arr">→</span></button>
+
+        <p class="form-status" id="formStatus" aria-live="polite"></p>
+      </form>
     </div>
   </div>
 
   <div class="page" id="projectPage" aria-hidden="true">
     <div class="page-inner detail-inner" id="detail">
 
-      <button class="page-back" data-close>← zurück zur Übersicht</button>
+      <button class="page-back" data-close><span lang="de">← zurück zur Übersicht</span><span lang="en">← back to overview</span></button>
 
-      <header class="detail-head">
+      <p class="detail-count" id="detailCount"></p>
+
+      <div class="detail-top">
+        <p class="detail-sub" id="detailSub"></p>
         <h2 class="detail-title" id="detailTitle"></h2>
-        <p class="detail-meta" id="detailMeta"></p>
-      </header>
-
-      <p class="detail-intro" id="detailIntro"></p>
-      <div class="detail-facts" id="detailFacts"></div>
+        <div class="detail-intro" id="detailIntro"></div>
+        <dl class="detail-facts" id="detailFacts"></dl>
+      </div>
       <div class="detail-video" id="detailVideo"></div>
       <div class="detail-cover" id="detailCover"></div>
       <div class="flow" id="detailFlow"></div>
@@ -1703,7 +2326,7 @@
       <nav class="pager" id="detailPager"></nav>
 
       <div class="page-end">
-        <a href="#contact">let's talk →</a>
+        <a href="#contact"><span lang="de">schreib mir →</span><span lang="en">let's talk →</span></a>
       </div>
 
     </div>
@@ -1711,32 +2334,76 @@
 
   <script>
 
+    /* language */
+
+    const HELLO = {
+      de: ["[Nice to meet you,", "feel free to look around! :)]"],
+      en: ["[Nice to meet you,", "feel free to look around! :)]"]
+    };
+
+    let lang = "de";
+    try {
+      const saved = localStorage.getItem("lang");
+      if (saved === "de" || saved === "en") lang = saved;
+    } catch (e) {}
+
+    function setLang(next) {
+      lang = next;
+      document.documentElement.lang = next;
+      document.querySelectorAll("[data-lang]").forEach((btn) => {
+        btn.classList.toggle("is-on", btn.dataset.lang === next);
+        btn.setAttribute("aria-pressed", btn.dataset.lang === next);
+      });
+      try { localStorage.setItem("lang", next); } catch (e) {}
+      if (window.restartHello) window.restartHello();
+      requestAnimationFrame(() => {
+        try { setActiveNav(); } catch (e) {}
+      });
+    }
+
+    setLang(lang);
+
+    document.querySelectorAll("[data-lang]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (btn.dataset.lang !== lang) setLang(btn.dataset.lang);
+      });
+    });
+
+
     /* typing */
 
     (() => {
       const title = document.querySelector(".hello");
       const lines = [...title.querySelectorAll(".line")];
-      const texts = lines.map((line) => line.textContent);
       const caret = document.createElement("span");
       caret.className = "caret";
+      const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        lines[lines.length - 1].append(caret);
-        return;
-      }
-
-      const parts = lines.map((line, i) => {
-        line.textContent = "";
-        const typed = document.createElement("span");
-        const rest = document.createElement("span");
-        rest.className = "rest";
-        rest.textContent = texts[i];
-        line.append(typed, rest);
-        return { typed, rest };
-      });
+      let texts = [];
+      let parts = [];
+      let gen = 0;
 
       const wait = (ms) => new Promise((done) => setTimeout(done, ms));
       const between = (a, b) => a + Math.random() * (b - a);
+
+      function setup() {
+        texts = HELLO[lang];
+        if (reduced) {
+          lines.forEach((line, i) => { line.textContent = texts[i]; });
+          lines[lines.length - 1].append(caret);
+          return;
+        }
+        parts = lines.map((line, i) => {
+          line.textContent = "";
+          const typed = document.createElement("span");
+          const rest = document.createElement("span");
+          rest.className = "rest";
+          rest.textContent = texts[i];
+          line.append(typed, rest);
+          return { typed, rest };
+        });
+        parts[0].typed.after(caret);
+      }
 
       function show(i, count) {
         parts[i].typed.textContent = texts[i].slice(0, count);
@@ -1750,21 +2417,23 @@
         return Math.random() < 0.12 ? between(140, 260) : between(38, 110);
       }
 
-      async function type(i) {
+      async function type(i, g) {
         parts[i].typed.after(caret);
         title.classList.add("is-typing");
         for (let c = 1; c <= texts[i].length; c++) {
+          if (g !== gen) return;
           show(i, c);
           await wait(pause(texts[i][c - 1], texts[i][c] || ""));
         }
         title.classList.remove("is-typing");
       }
 
-      async function erase() {
+      async function erase(g) {
         title.classList.add("is-typing");
         for (let i = parts.length - 1; i >= 0; i--) {
           parts[i].typed.after(caret);
           for (let c = parts[i].typed.textContent.length - 1; c >= 0; c--) {
+            if (g !== gen) return;
             show(i, c);
             await wait(between(18, 45));
           }
@@ -1773,18 +2442,30 @@
         title.classList.remove("is-typing");
       }
 
-      (async () => {
-        await wait(700);
-        while (true) {
+      async function run(g) {
+        await wait(600);
+        while (g === gen) {
           for (let i = 0; i < parts.length; i++) {
-            await type(i);
+            await type(i, g);
+            if (g !== gen) return;
             if (i < parts.length - 1) await wait(between(350, 600));
           }
           await wait(5200);
-          await erase();
+          if (g !== gen) return;
+          await erase(g);
+          if (g !== gen) return;
           await wait(1100);
         }
-      })();
+      }
+
+      window.restartHello = () => {
+        gen++;
+        title.classList.remove("is-typing");
+        setup();
+        if (!reduced) run(gen);
+      };
+
+      window.restartHello();
     })();
 
 
@@ -1824,27 +2505,47 @@
 
     /* projects */
 
+    function L(de, en = de) {
+      return `<span lang="de">${de}</span><span lang="en">${en}</span>`;
+    }
+
+    const FACT = {
+      task: L("Aufgabe", "Brief"),
+      kind: L("Art", "Type"),
+      part: L("Eigenanteil", "My part"),
+      space: L("Entstehungsraum", "Context"),
+      cat: L("Kategorie", "Category")
+    };
+
     const projects = [
       {
         title: "Alles Liebe",
+        sub: "What We Keep —<br>Editorial Design<br>as an Act of Collecting",
+        year: 2026,
+        cat: "editorial",
+        catLabel: "Editorial Design",
+        with: "HTW Berlin",
         meta: "2026 – Editorial Design",
         cover: "assets/cw-collage-cover.jpg",
-        intro: "Alles Liebe sammelt und kuratiert Geburtstagskarten, die ich im Laufe meines Lebens von den unterschiedlichsten Menschen bekommen habe. Die Karten erzählen von Beziehungen, Freundschaften und Begegnungen, von Nähe und Distanz und davon, wie sich Menschen über die Jahre begleiten. Die Publikation beschäftigt sich damit, wie wir Glückwünsche formulieren, wie sie sich mit dem Älterwerden verändern und welchen Platz sie in einer zunehmend digitalen Welt einnehmen.",
+        intro: L(
+          "Alles Liebe sammelt und kuratiert Geburtstagskarten, die ich im Laufe meines Lebens von den unterschiedlichsten Menschen bekommen habe. Die Karten erzählen von Beziehungen, Freundschaften und Begegnungen, von Nähe und Distanz und davon, wie sich Menschen über die Jahre begleiten. Die Publikation beschäftigt sich damit, wie wir Glückwünsche formulieren, wie sie sich mit dem Älterwerden verändern und welchen Platz sie in einer zunehmend digitalen Welt einnehmen.",
+          "Alles Liebe (“All my love”) collects and curates the birthday cards I have received from all kinds of people over the course of my life. The cards tell of relationships, friendships and encounters, of closeness and distance, and of how people accompany each other over the years. The publication explores how we phrase our wishes, how they change as we grow older and what place they have in an increasingly digital world."
+        ),
         facts: [
-          ["Aufgabe", "Kuratieren und Entwickeln einer Publikation sowie Erstellen von Infografiken ausgehend von einer persönlichen Sammlung."],
-          ["Art", "Konzept, Infografiken, Layout/Satz, Print, Bindung"],
-          ["Entstehungsraum", "Semesterprojekt im Sommersemester 2026"],
-          ["Beteiligte", "Einzelarbeit<br>Sabrina Grill (Dozentin)"]
+          [FACT.task, L("Kuratieren und Entwickeln einer Publikation sowie Erstellen von Infografiken ausgehend von einer persönlichen Sammlung.", "Curating and developing a publication and creating infographics based on a personal collection.")],
+          [FACT.kind, L("Konzept, Infografiken, Layout/Satz, Print, Bindung", "Concept, infographics, layout/typesetting, print, binding")],
+          [FACT.space, L("Semesterprojekt im Sommersemester 2026", "Semester project, summer semester 2026")],
+          [FACT.cat, "Editorial Design"]
         ],
         content: () => [
-          row(label("1 / 4", "Prozess") + text("5 / 12", [
+          row(label("1 / 4", "Prozess", "Process") + text("5 / 12", [
             "Zu Beginn habe ich all meine Geburtstagskarten nach verschiedenen Kriterien sortiert, etwa nach",
             "Jahreszahl, Farbe, Absender oder der Art der Karte (ob gebastelt, gemalt oder gekauft).",
             "Die Publikation beginnt mit einer Zusammenfassung und einem Überblick über die gesamte",
             "Sammlung, führt weiter zu einem Kapitel über persönliche Beziehungen und zeigt schließlich auf,",
             "wie sich diese Beziehungen und Schreibstile im Laufe der Zeit verändern. Die Texte in der",
             "Publikation habe ich selbst verfasst."
-          ])),
+          ], "I started by sorting all my birthday cards by different criteria, such as year, colour, sender or type of card (handmade, painted or bought). The publication opens with a summary and an overview of the entire collection, moves on to a chapter about personal relationships and finally shows how these relationships and writing styles change over time. I wrote all the texts in the publication myself.")),
           row(stack([
             ["assets/al-prozess-1.webp", "Umschlag mit der Übersicht aller Karten", "a1"],
             ["assets/al-prozess-2.webp", "Seiten „Gebrauchsspuren“ während der Bindung", "a2"],
@@ -1856,10 +2557,10 @@
             "die Publikation wie einen Geburtstagsumschlag. Zuerst habe ich eine japanische Bindung",
             "ausprobiert, die mir allerdings nicht stabil genug war, daher habe ich mich im zweiten Versuch",
             "für eine neue Version mit einer Schweizer Bindung entschieden."
-          ]), "close"),
+          ], "Because the personal connection to the cards mattered so much to me, I really wanted to bind the book myself. The cover shows all the cards once more as an overview and wraps the publication like a birthday envelope. I first tried a Japanese binding, but it wasn’t stable enough, so for the second version I chose a Swiss binding."), "close"),
           row(`<figure class="fav" style="grid-column:5 / 9">
             <span class="fav-note" aria-hidden="true">
-              <span>„Meine Lieblingskarte, gebastelt von meinem Bruder zu meinem fünfzehnten Geburtstag.“</span>
+              <span>${L("„Meine Lieblingskarte, gebastelt von meinem Bruder zu meinem fünfzehnten Geburtstag.“", "“My favourite card, made by my brother for my fifteenth birthday.”")}</span>
               <svg viewBox="0 0 60 30" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22 C18 6, 36 4, 54 14"/><path d="M46 8 L55 14.5 L45 18"/></svg>
             </span>
             <img src="assets/cw-herz.webp" alt="Gebastelte Herzkarte, Lieblingskarte vom Bruder" loading="lazy">
@@ -1877,25 +2578,33 @@
       },
       {
         title: "Effi Briest",
+        sub: L("Ein Roman<br>– neu gestaltet", "A novel<br>– redesigned"),
+        year: 2025,
+        cat: "editorial",
+        catLabel: "Editorial Design",
+        with: "HTW Berlin · Tjale Kämpfer",
         meta: "2025 – Editorial Design",
         video: "assets/effi-blaettern.mp4",
         poster: "assets/effi-blaettern-poster.jpg",
         videoBg: "#e9e2e9",
-        intro: "Im Rahmen des Grundstudiums Typografie entstand eine visuelle Neuinterpretation des Romans „Effi Briest“ von Theodor Fontane. Die Aufgabe bestand darin, eine umfangreiche Publikation inhaltlich zu bearbeiten und mit Blick auf Typografie, Farb- und Bildsprache neu aufzusetzen.",
+        intro: L(
+          "Im Rahmen des Grundstudiums Typografie entstand eine visuelle Neuinterpretation des Romans „Effi Briest“ von Theodor Fontane. Die Aufgabe bestand darin, eine umfangreiche Publikation inhaltlich zu bearbeiten und mit Blick auf Typografie, Farb- und Bildsprache neu aufzusetzen.",
+          "As part of the foundation course in typography, I created a visual reinterpretation of Theodor Fontane’s novel “Effi Briest”. The task was to edit an extensive publication and redesign it in terms of typography, colour and imagery."
+        ),
         facts: [
-          ["Aufgabe", "Kuratieren, Layouten und Drucken einer bestehenden Publikation."],
-          ["Art", "Konzeption, Layout/Satz, Print"],
-          ["Eigenanteil", "Konzeption, Layout/Satz, Bildbearbeitung, Druckvorbereitung"],
-          ["Entstehungsraum", "Semesterprojekt im Sommersemester 2025"],
-          ["Beteiligte", "Tjale Kämpfer<br>Jürgen Huber (Professor)"]
+          [FACT.task, L("Kuratieren, Layouten und Drucken einer bestehenden Publikation.", "Curating, laying out and printing an existing publication.")],
+          [FACT.kind, L("Konzeption, Layout/Satz, Print", "Concept, layout/typesetting, print")],
+          [FACT.part, L("Konzeption, Layout/Satz, Bildbearbeitung, Druckvorbereitung", "Concept, layout/typesetting, image editing, prepress")],
+          [FACT.space, L("Semesterprojekt im Sommersemester 2025", "Semester project, summer semester 2025")],
+          [FACT.cat, "Editorial Design"]
         ],
         content: () => [
-          row(label("1 / 4", "Konzept") + text("5 / 12", [
+          row(label("1 / 4", "Konzept", "Concept") + text("5 / 12", [
             "Effis Leben ist von Brüchen geprägt: das abrupte Ende ihrer Kindheit durch die frühe Heirat, der",
             "Ehebruch und schließlich der Bruch mit Familie und Gesellschaft. Die Neuinterpretation greift",
             "genau diese Brüche auf. Typografie, Farb- und Bildsprache verändern sich mit Effis Lebensphasen",
             "und machen die Umbrüche sichtbar."
-          ])),
+          ], "Effi’s life is shaped by ruptures: the abrupt end of her childhood through an early marriage, her adultery and finally the break with her family and society. The reinterpretation takes up exactly these ruptures. Typography, colour and imagery change with each phase of Effi’s life and make the upheavals visible.")),
           row(slider([
             ["assets/effi-mockup.jpg", "Aufgeschlagene Publikation"],
             ["assets/effi-uebermut.jpg", "Kapitelauftakt „Übermut“"],
@@ -1906,37 +2615,45 @@
       },
       {
         title: "Reversa Sans",
+        sub: L("Einführung in den Schriftentwurf", "Introduction to Type Design"),
+        year: 2025,
+        cat: "type",
+        catLabel: "Typedesign",
+        with: "HTW Berlin",
         meta: "2025 – Typedesign",
         video: "assets/reversa-trailer.mp4",
         videoWebm: "assets/reversa-trailer.webm",
         poster: "assets/reversa-trailer-poster.jpg",
         videoBg: "#f6e8ea",
-        intro: "Reversa Sans ist im Semesterprojekt „Einführung in den Schriftentwurf“ entstanden, eine eigene serifenlose Schrift mit Strichkontrast. Am Anfang standen Skizzen von Hand und viel Zeit mit der Frage, was den Charakter eines Buchstabens eigentlich ausmacht. Erst danach habe ich die Schrift in Glyphs digitalisiert.",
+        intro: L(
+          "Reversa Sans ist im Semesterprojekt „Einführung in den Schriftentwurf“ entstanden, eine eigene serifenlose Schrift mit Strichkontrast. Am Anfang standen Skizzen von Hand und viel Zeit mit der Frage, was den Charakter eines Buchstabens eigentlich ausmacht. Erst danach habe ich die Schrift in Glyphs digitalisiert.",
+          "Reversa Sans was created in the semester project “Introduction to Type Design”: my own sans serif typeface with stroke contrast. It started with hand sketches and a lot of time spent on the question of what actually defines the character of a letter. Only then did I digitise the typeface in Glyphs."
+        ),
         facts: [
-          ["Aufgabe", "Entwickeln eines eigenen Buchstabensatzes aus der serifenlosen Linear-Antiqua."],
-          ["Art", "Typedesign, Konzeption, Konstruktion, Digitalisierung"],
-          ["Entstehungsraum", "Semesterprojekt im Wintersemester 2025"],
-          ["Beteiligte", "Einzelarbeit<br>Jürgen Huber (Professor)"]
+          [FACT.task, L("Entwickeln eines eigenen Buchstabensatzes aus der serifenlosen Linear-Antiqua.", "Developing an alphabet based on the sans serif linear antiqua.")],
+          [FACT.kind, L("Typedesign, Konzeption, Konstruktion, Digitalisierung", "Type design, concept, construction, digitisation")],
+          [FACT.space, L("Semesterprojekt im Wintersemester 2025", "Semester project, winter semester 2025")],
+          [FACT.cat, "Typedesign"]
         ],
         content: () => [
-          row(label("1 / 4", "Konzept") + text("5 / 12", [
+          row(label("1 / 4", "Konzept", "Concept") + text("5 / 12", [
             "Die Idee kommt vom Schreiben mit der Breitfeder, nur andersherum: Reversa Sans folgt einer",
             "gespiegelten Feder. Dicke und dünne Striche liegen deshalb dort, wo man sie nicht erwartet.",
             "Das irritiert zuerst ein wenig, macht aber gerade den Reiz der Schrift aus. Sie spielt mit",
             "unseren Lesegewohnheiten und wirkt dadurch lebendig."
-          ])),
-          row(label("1 / 13", "Erste Ideen und Skizzen")),
+          ], "The idea comes from writing with a broad-nib pen, only the other way round: Reversa Sans follows a mirrored nib. Thick and thin strokes therefore sit where you don’t expect them. At first this is a little irritating, but that is exactly what makes the typeface appealing. It plays with our reading habits and feels alive as a result.")),
+          row(label("1 / 13", "Erste Ideen und Skizzen", "First ideas and sketches")),
           row(stack([
             ["assets/reversa-buch-1.webp", "Skizzenbuch: Typewriter-Schrift, f, k, a, n, g", "b1"],
             ["assets/reversa-buch-2.webp", "Skizzenbuch: Fraktur und Bodoni", "b2"],
             ["assets/reversa-buch-3.webp", "Skizzenbuch: a, e, o, n", "b3"],
             ["assets/reversa-ausdrucke.jpg", "Ausdrucke mit Testwörtern", "pr photo"]
           ])),
-          row(label("1 / 4", "Prozess") + text("5 / 12", [
+          row(label("1 / 4", "Prozess", "Process") + text("5 / 12", [
             "Ausgehend von einer Reihe an Tests mit der Breitfeder entstand der Wunsch, etwas Vertrautes zu",
             "verändern: die Kontraste und Schwerpunkte in den Buchstaben. Daraus entwickelte sich die",
             "Idee der gespiegelten Feder. Die Skizzen wurden anschließend in Glyphs finalisiert."
-          ])),
+          ], "A series of tests with the broad-nib pen led to the wish to change something familiar: the contrasts and the distribution of weight within the letters. This gave rise to the idea of the mirrored nib. The sketches were then finalised in Glyphs.")),
           row(`<figure class="poster" style="grid-column:1 / 7"><img src="assets/reversa-poster.jpg" alt="Plakat mit Schriftmuster" loading="lazy"></figure>
             <figure class="flyer" style="grid-column:7 / 13">
               <img class="clip" src="assets/paperclip.png" alt="">
@@ -1950,12 +2667,13 @@
       return `<div class="row ${extra}">${inner}</div>`;
     }
 
-    function label(col, name) {
-      return `<p class="text" style="grid-column:${col}"><span class="label">${name}</span></p>`;
+    function label(col, de, en = de) {
+      return `<p class="text" style="grid-column:${col}"><span class="label">${L(de, en)}</span></p>`;
     }
 
-    function text(col, lines) {
-      return `<p class="text lines" style="grid-column:${col}">${lines.map((l) => `<span class="ln">${l}</span>`).join(" ")}</p>`;
+    function text(col, deLines, en) {
+      const de = deLines.map((l) => `<span class="ln">${l}</span>`).join(" ");
+      return `<p class="text lines" style="grid-column:${col}"><span lang="de">${de}</span><span lang="en">${en}</span></p>`;
     }
 
     function slider(images) {
@@ -2048,11 +2766,18 @@
       const next = projects[(index + 1) % projects.length];
 
       document.getElementById("detailTitle").textContent = project.title;
-      document.getElementById("detailMeta").textContent = project.meta;
-      document.getElementById("detailIntro").textContent = project.intro;
+      document.getElementById("detailCount").textContent =
+        `${String(index + 1).padStart(2, "0")} / ${String(projects.length).padStart(2, "0")}`;
+      document.getElementById("detailSub").innerHTML = project.sub || "";
+      document.getElementById("detailIntro").innerHTML = project.intro;
 
-      document.getElementById("detailFacts").innerHTML = project.facts
-        .map(([name, value]) => `<div><span class="label">${name}</span>${value}</div>`)
+      const facts = [
+        [L("Jahr", "Year"), project.year],
+        [L("Kategorie", "Category"), `<a href="#work" data-cat-link="${project.cat}">${project.catLabel}</a>`],
+        ...project.facts.filter(([name]) => name !== FACT.cat)
+      ];
+      document.getElementById("detailFacts").innerHTML = facts
+        .map(([name, value]) => `<div><dt>${name}:</dt><dd>${value}</dd></div>`)
         .join("");
 
       detailVideo.style.background = project.videoBg || "";
@@ -2150,6 +2875,13 @@
         return;
       }
 
+      const catLink = event.target.closest("a[data-cat-link]");
+      if (catLink) {
+        const btn = document.querySelector(`[data-filter="${catLink.dataset.catLink}"]`);
+        if (btn) btn.click();
+        return;
+      }
+
       const link = event.target.closest("a[data-swap]");
       if (link) {
         event.preventDefault();
@@ -2167,6 +2899,55 @@
         openedFromSite = false;
       }
     });
+
+
+    /* contact form */
+
+    (() => {
+      const form = document.getElementById("contactForm");
+      const status = document.getElementById("formStatus");
+      const send = form.querySelector(".form-send");
+
+      const MSG = {
+        sending: ["Wird gesendet …", "Sending …"],
+        ok: ["Danke! Deine Nachricht ist angekommen. Ich melde mich bald bei dir.", "Thank you! Your message has been sent. I’ll get back to you soon."],
+        fail: ["Das hat leider nicht geklappt. Schreib mir gerne direkt an <a href=\"mailto:betty.dopke@gmail.com\">betty.dopke@gmail.com</a>.",
+               "Sorry, that didn’t work. Feel free to write to me directly at <a href=\"mailto:betty.dopke@gmail.com\">betty.dopke@gmail.com</a>."]
+      };
+      const say = ([de, en]) => { status.innerHTML = L(de, en); };
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (form._honey.value) return;
+
+        send.disabled = true;
+        say(MSG.sending);
+
+        try {
+          const res = await fetch("https://formsubmit.co/ajax/betty.dopke@gmail.com", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Accept": "application/json" },
+            body: JSON.stringify({
+              name: form.name.value,
+              email: form.email.value,
+              message: form.message.value,
+              _replyto: form.email.value,
+              _subject: "Neue Nachricht über dein Portfolio",
+              _template: "table",
+              _captcha: "false"
+            })
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok || data.success === false || data.success === "false") throw new Error();
+          form.reset();
+          say(MSG.ok);
+        } catch (e) {
+          say(MSG.fail);
+        } finally {
+          send.disabled = false;
+        }
+      });
+    })();
 
 
     /* lightbox */
@@ -2333,6 +3114,7 @@
     viewport.addEventListener("touchstart", stopGlide, { passive: true });
 
     const cards = [...viewport.querySelectorAll(".project")];
+    const shownCards = () => cards.filter((card) => !card.classList.contains("is-out"));
 
     function cardTarget(card) {
       const centre = card.offsetLeft + card.offsetWidth / 2 - viewport.clientWidth / 2;
@@ -2342,7 +3124,7 @@
     function stepCards(dir) {
       stopGlide();
       const x = viewport.scrollLeft;
-      const targets = cards.map(cardTarget);
+      const targets = shownCards().map(cardTarget);
       let left = dir > 0
         ? targets.find((t) => t > x + 4)
         : [...targets].reverse().find((t) => t < x - 4);
@@ -2356,6 +3138,20 @@
 
     arrowLeft.addEventListener("click", () => stepCards(-1));
     arrowRight.addEventListener("click", () => stepCards(1));
+
+
+    /* work filter */
+
+    document.querySelectorAll("[data-filter]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const filter = btn.dataset.filter;
+        document.querySelectorAll("[data-filter]").forEach((b) => b.classList.toggle("is-on", b === btn));
+        cards.forEach((card) => card.classList.toggle("is-out", filter !== "all" && card.dataset.cat !== filter));
+        stopGlide();
+        viewport.scrollLeft = 0;
+        goal = 0;
+      });
+    });
 
     route();
 
