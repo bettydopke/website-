@@ -644,7 +644,7 @@
 
     .projekt:nth-child(4) {
       width: clamp(300px, 30vw, 540px);
-      height: clamp(225px, 22.5vw, 405px);
+      height: clamp(194px, 19.4vw, 349px);
       margin-top: clamp(20px, 2.5vw, 44px);
     }
 
@@ -1082,7 +1082,7 @@
 
     /* Freigestelltes Video (transparenter Hintergrund, ohne Schatten) */
     .projekt-video.freigestellt {
-      max-width: min(560px, 78vw);
+      max-width: min(360px, 60vw);
       aspect-ratio: 1 / 1;
       background: transparent !important;
     }
@@ -1092,6 +1092,23 @@
       mix-blend-mode: multiply;
       filter: none;
       box-shadow: none;
+    }
+
+    /* Visitenkarten klein nebeneinander */
+    .karten-paar {
+      display: flex;
+      justify-content: center;
+      gap: clamp(14px, 2vw, 30px);
+    }
+
+    .reihe .karten-paar img {
+      width: min(34%, 400px);
+    }
+
+    @media (max-width: 700px) {
+      .reihe .karten-paar img {
+        width: calc(50% - 7px);
+      }
     }
 
     .video-schalter {
@@ -1488,7 +1505,7 @@
       .projekt:nth-child(1) { width: 50vw; height: 37.5vw; }
       .projekt:nth-child(2) { width: 58vw; height: 43.5vw; }
       .projekt:nth-child(3) { width: 34vw; height: 45vw; }
-      .projekt:nth-child(4) { width: 50vw; height: 37.5vw; }
+      .projekt:nth-child(4) { width: 50vw; height: 32.4vw; }
 
       .kontakt-raster {
         grid-template-columns: 1fr;
@@ -1676,7 +1693,7 @@
       .projekt:nth-child(1) { width: 78vw; height: 58vw; }
       .projekt:nth-child(2) { width: 84vw; height: 63vw; margin-top: 28px; }
       .projekt:nth-child(3) { width: 58vw; height: 77vw; margin-top: 10px; }
-      .projekt:nth-child(4) { width: 80vw; height: 60vw; margin-top: 22px; }
+      .projekt:nth-child(4) { width: 80vw; height: 51.8vw; margin-top: 22px; }
 
       .scroll-pfeil {
         top: calc(50% - 30px);
@@ -2024,7 +2041,7 @@
 
             <article class="projekt" data-project="3" data-cat="branding">
               <div class="projekt-medium">
-                <img src="assets/eq-card.jpg" alt="Equalizer" loading="lazy" draggable="false">
+                <img src="assets/eq-card.jpg" alt="Equalizer, Visitenkarte Rückseite" loading="lazy" draggable="false">
               </div>
               <div class="projekt-info">
                 <span>Equalizer<span class="projekt-kategorie">Branding</span></span>
@@ -2550,10 +2567,10 @@
             ["assets/eq-prozess-skizzen.webp", "Skizzenbuch: Logoentwürfe für Equalizer", "e1"],
             ["assets/eq-prozess-raster.webp", "Ausdruck mit allen digitalen Logovarianten", "e2"]
           ])),
-          reihe(bildleiste([
-            ["assets/eq-karte-vorne.jpg", "Visitenkarte, Vorderseite mit Logo"],
-            ["assets/eq-karte-hinten.jpg", "Visitenkarte, Rückseite mit Prägung"]
-          ]))
+          reihe(`<div class="karten-paar" style="grid-column:1 / 13" data-group>
+            <img src="assets/eq-karte-vorne.jpg" alt="Visitenkarte, Vorderseite mit Logo" loading="lazy" draggable="false" data-zoom>
+            <img src="assets/eq-karte-hinten.jpg" alt="Visitenkarte, Rückseite mit Prägung" loading="lazy" draggable="false" data-zoom>
+          </div>`)
         ]
       }
     ];
