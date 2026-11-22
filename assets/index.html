@@ -68,6 +68,16 @@
       src: url("assets/fonts/ibm-plex-sans-latin-700-italic.woff2") format("woff2");
     }
 
+    /* Handschrift für die Titel: Nothing You Could Do von Kimberly Geswein (SIL Open Font License, siehe assets/fonts/OFL-nothing-you-could-do.txt) */
+
+    @font-face {
+      font-family: "Nothing You Could Do";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("assets/fonts/nothing-you-could-do-latin-400-normal.woff2") format("woff2");
+    }
+
     :root {
       --schwarz: #111;
       --grau: #777;
@@ -438,6 +448,11 @@
       font-weight: 700;
     }
 
+    .ueber-text .ueber-absatz {
+      display: block;
+      margin-top: 0.9em;
+    }
+
     .lebenslauf {
       margin-top: clamp(100px, 15vh, 170px);
     }
@@ -552,6 +567,28 @@
       font-weight: 700;
       line-height: 0.86;
       letter-spacing: -0.065em;
+    }
+
+    /* Handgeschriebene Titel mit Bleistift-Struktur */
+    .gross-titel.handschrift {
+      font-family: "Nothing You Could Do", var(--schrift);
+      font-weight: 400;
+      font-size: var(--fs-xl);
+      line-height: 0.92;
+      letter-spacing: 0;
+      color: #262626;
+      filter: url(#bleistift);
+      /* leicht nach rechts, damit die Schrift optisch bündig mit Foto und Text steht */
+      transform: translateX(0.06em) rotate(-4deg);
+      transform-origin: left bottom;
+    }
+
+    .ueber-titel.handschrift {
+      margin-bottom: clamp(36px, 6vh, 64px);
+    }
+
+    .kontakt-raster:has(.handschrift) {
+      row-gap: clamp(32px, 5vh, 52px);
     }
 
 
@@ -1870,6 +1907,18 @@
     <button class="bild-weiter" type="button" aria-label="Nächstes Bild">→</button>
   </div>
 
+  <!-- Bleistift-Struktur für die handgeschriebenen Titel -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <filter id="bleistift" x="-5%" y="-10%" width="110%" height="120%">
+      <feMorphology operator="dilate" radius="0.9" in="SourceGraphic" result="kraeftiger"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="3" result="wackeln"/>
+      <feDisplacementMap in="kraeftiger" in2="wackeln" scale="2" result="strich"/>
+      <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="1" seed="8" result="koernung"/>
+      <feColorMatrix in="koernung" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -3 2.6" result="maske"/>
+      <feComposite in="strich" in2="maske" operator="in"/>
+    </filter>
+  </svg>
+
   <div class="cursor ist-versteckt" id="cursor" aria-hidden="true">
     <span>
       <svg viewBox="-13 -13 26 26"><path fill="currentColor" d="M0,-12.6 C0.9,-4.6 4.6,-0.9 12.6,0 C4.6,0.9 0.9,4.6 0,12.6 C-0.9,4.6 -4.6,0.9 -12.6,0 C-4.6,-0.9 -0.9,-4.6 0,-12.6Z"/></svg>
@@ -1914,7 +1963,7 @@
   <section id="about">
     <div class="ueber-innen">
 
-      <h2 class="gross-titel ueber-titel"><span lang="de">über<br>mich.</span><span lang="en">about<br>me.</span></h2>
+      <h2 class="gross-titel handschrift ueber-titel"><span lang="de">über<br>mich.</span><span lang="en">about<br>me.</span></h2>
 
       <div class="ueber-raster">
         <div class="ueber-foto">
@@ -1923,12 +1972,18 @@
 
         <p class="ueber-text zeilen">
           <span lang="de">
-          <span class="zl">Hey, ich bin Betty (23) aus Berlin. Ich studiere Kommunikationsdesign an der HTW im 5. Semester</span>
-          <span class="zl">und interessiere mich besonders für <em>Editorial Design</em>, <em>Branding</em> und <em>Typedesign</em>. Da mich</span>
-          <span class="zl">visuelles Storytelling und kreative Zusammenarbeit besonders faszinieren, gehe ich Projekte</span>
-          <span class="zl">sowohl mit ästhetischem Gespür als auch mit strategischem Denken an.</span>
+          <span class="zl">Hey, ich bin Betty! Ich studiere im 5. Semester Kommunikationsdesign an der HTW und mein Alltag</span>
+          <span class="zl">spielt sich meistens irgendwo zwischen der Suche nach der richtigen Schriftart, Moodboards und viel</span>
+          <span class="zl">zu vielen offenen Tabs ab.</span>
+          <span class="ueber-absatz">
+          <span class="zl">Am meisten begeistern mich <em>Editorial Design</em>, <em>Branding</em> und <em>Typedesign</em>, denn ich mag gute</span>
+          <span class="zl">Schriften, Marken mit Charakter und Layouts, bei denen man kurz innehalten muss. Großzügiger</span>
+          <span class="zl">Weißraum reizt mich genauso wie ein harter Kontrast, solange die Gestaltung am Ende nicht nur gut</span>
+          <span class="zl">aussieht, sondern auch etwas erzählt.</span>
           </span>
-          <span lang="en">Hey, I'm Betty (23) from Berlin. I'm in my fifth semester of Communication Design at HTW Berlin and I'm especially interested in <em>editorial design</em>, <em>branding</em> and <em>type design</em>. Visual storytelling and creative collaboration fascinate me, so I approach projects with both an eye for aesthetics and strategic thinking.</span>
+          </span>
+          <span lang="en">Hey, I'm Betty! I'm in my fifth semester of Communication Design at HTW Berlin, and my everyday life usually plays out somewhere between hunting for the right typeface, moodboards and far too many open tabs.
+          <span class="ueber-absatz">What excites me most is <em>editorial design</em>, <em>branding</em> and <em>type design</em>, because I love good typefaces, brands with character and layouts that make you pause for a moment. Generous white space appeals to me just as much as hard contrast, as long as the design ends up not only looking good but also telling a story.</span></span>
         </p>
       </div>
 
@@ -2108,7 +2163,7 @@
 
   <div class="seite" id="kontaktSeite" aria-hidden="true">
     <div class="seite-innen kontakt-raster">
-      <h2 class="gross-titel kontakt-titel"><span lang="de">schreib<br>mir.</span><span lang="en">let's<br>talk.</span></h2>
+      <h2 class="gross-titel handschrift kontakt-titel"><span lang="de">schreib<br>mir.</span><span lang="en">let's<br>talk.</span></h2>
 
       <dl class="kontakt-info">
         <div>
