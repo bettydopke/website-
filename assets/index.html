@@ -1070,6 +1070,14 @@
       text-wrap: pretty;
     }
 
+    .projekt-einleitung .einleitung-absatz {
+      display: block;
+    }
+
+    .projekt-einleitung .einleitung-absatz + .einleitung-absatz {
+      margin-top: 0.9em;
+    }
+
     .projekt-fakten {
       grid-column: 3;
       display: flex;
@@ -2509,8 +2517,8 @@
         kategorieName: "Editorial Design",
         titelbild: "assets/cw-collage-cover.jpg",
         einleitung: zweisprachig(
-          "Alles Liebe sammelt und kuratiert Geburtstagskarten, die ich im Laufe meines Lebens von den unterschiedlichsten Menschen bekommen habe. Die Karten erzählen von Beziehungen, Freundschaften und Begegnungen, von Nähe und Distanz und davon, wie sich Menschen über die Jahre begleiten. Die Publikation beschäftigt sich damit, wie wir Glückwünsche formulieren, wie sie sich mit dem Älterwerden verändern und welchen Platz sie in einer zunehmend digitalen Welt einnehmen.",
-          "Alles Liebe (“All my love”) collects and curates the birthday cards I have received from all kinds of people over the course of my life. The cards tell of relationships, friendships and encounters, of closeness and distance, and of how people accompany each other over the years. The publication explores how we phrase our wishes, how they change as we grow older and what place they have in an increasingly digital world."
+          "<span class=\"einleitung-absatz\">Alles Liebe zum Geburtstag: Vier Worte, die in so vielen meiner Karten stehen, dass ich sie kaum noch bemerke. Doch klingen sie jedes Mal anders, je nachdem, wer sie geschrieben hat.</span><span class=\"einleitung-absatz\">Für diese Publikation habe ich meine Geburtstagskarten wieder aus der Kiste gekramt. Jede erinnert mich an jemanden: an Freundschaften, die bis heute halten, an flüchtige Begegnungen und an Menschen, die ich aus den Augen verloren habe.</span><span class=\"einleitung-absatz\">In der Publikation beantworte ich mir auch die Fragen, warum wir mit acht anders schreiben als mit achtzig und warum eine Karte aus Papier immer noch etwas Besonderes ist, obwohl die meisten Glückwünsche längst als Nachricht kommen.</span>",
+          "<span class=\"einleitung-absatz\">Alles Liebe zum Geburtstag (“All my love on your birthday”): four words that appear in so many of my cards that I hardly notice them anymore. And yet they sound different every time, depending on who wrote them.</span><span class=\"einleitung-absatz\">For this publication, I dug my birthday cards back out of the box. Each one reminds me of someone: of friendships that still hold today, of fleeting encounters and of people I have lost touch with.</span><span class=\"einleitung-absatz\">In the publication, I also answer for myself why we write differently at eight than at eighty, and why a paper card is still something special, even though most birthday wishes have long since arrived as messages.</span>"
         ),
         fakten: [
           [FAKTEN.aufgabe, zweisprachig("Kuratieren und Entwickeln einer Publikation sowie Erstellen von Infografiken ausgehend von einer persönlichen Sammlung.", "Curating and developing a publication and creating infographics based on a personal collection.")],
